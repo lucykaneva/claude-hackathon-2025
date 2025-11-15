@@ -62,7 +62,7 @@ def add_gift(gift_data):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO gifts (donnor_name, donnor_contact, donor_address, gift_name, gift_description, gift_type, photo_base64, quality_score)
+        INSERT INTO gifts (donnor_name, donnor_contact, donor_address, gift_name, gift_description, gift_type, photo_base64, age_range, quality_score)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         gift_data['donnor_name'],
@@ -72,6 +72,7 @@ def add_gift(gift_data):
         gift_data['gift_description'],
         gift_data['gift_type'],
         gift_data['photo_base64'],
+        gift_data['age_range'],
         gift_data['quality_score']
     ))
     conn.commit()
