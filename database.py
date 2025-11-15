@@ -7,12 +7,17 @@ DB_NAME = 'gifts_database.db'
 def initialize_db():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
+
+    cursor.execute("DROP TABLE IF EXISTS matches")
+    cursor.execute("DROP TABLE IF EXISTS gifts")
+    cursor.execute("DROP TABLE IF EXISTS requests")
+
     # Gifts table
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS gifts (
+        CREATE TABLE gifts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            donnor_name TEXT NOT NULL,
-            donnor_contact TEXT NOT NULL,
+            donor_name TEXT NOT NULL,
+            donor_contact TEXT NOT NULL,
             donor_address TEXT NOT NULL,
             gift_name TEXT NOT NULL,
             gift_description TEXT NOT NULL,
@@ -62,11 +67,11 @@ def add_gift(gift_data):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO gifts (donnor_name, donnor_contact, donor_address, gift_name, gift_description, gift_type, photo_base64, age_range, quality_score)
+        INSERT INTO gifts (donor_name, donor_contact, donor_address, gift_name, gift_description, gift_type, photo_base64, age_range, quality_score)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
-        gift_data['donnor_name'],
-        gift_data['donnor_contact'],
+        gift_data['donor_name'],
+        gift_data['donor_contact'],
         gift_data['donor_address'],
         gift_data['gift_name'],
         gift_data['gift_description'],
@@ -99,13 +104,13 @@ def add_request(request_data):
     
     c.execute('''
         INSERT INTO requests
-        (recipient_name, recipient_contact, recipient_location, 
+        (recipient_name, recipient_contact, recipient_address, 
          child_age, child_interests, specific_needs)
         VALUES (?, ?, ?, ?, ?, ?)
     ''', (
         request_data['recipient_name'],
         request_data['recipient_contact'],
-        request_data['recipient_location'],
+        request_data['recipient_address'],
         request_data['child_age'],
         request_data['child_interests'],
         request_data['specific_needs']

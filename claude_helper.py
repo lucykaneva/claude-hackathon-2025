@@ -99,7 +99,7 @@ def match_gifts_to_request(request_info, available_gifts):
     for idx, gift in enumerate(available_gifts):
         gifts_text += f"\ngift {idx}:\n"
         gifts_text += f"  Name: {gift['gift_name']}\n"
-        gifts_text += f"  Description: {gift['description']}\n"
+        gifts_text += f"  Description: {gift['gift_description']}\n"
         gifts_text += f"  Category: {gift['gift_type']}\n"
         gifts_text += f"  Age Range: {gift['age_range']}\n"
         gifts_text += f"  Quality: {gift['quality_score']}/10\n"
