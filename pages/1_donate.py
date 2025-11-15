@@ -4,6 +4,27 @@ from database import add_gift
 from claude_helper import assess_gift_from_image
 from utils import is_valid_email, is_zipcode_valid
 
+if 'email_error' not in st.session_state:
+    st.session_state.email_error = None
+if 'zipcode_error' not in st.session_state:
+    st.session_state.zipcode_error = None
+
+def validate_input(field_key, validator_func, error_message):
+    """Generic callback to validate and update session state error."""
+    # Get the current value from the widget's key
+    value = st.session_state[field_key]
+    
+    # Check if the value is empty (don't show error yet if blank)
+    if not value:
+        st.session_state[f'{field_key}_error'] = None
+        return
+
+    # Run the specific validation function
+    if not validator_func(value):
+        st.session_state[f'{field_key}_error'] = error_message
+    else:
+        st.session_state[f'{field_key}_error'] = None
+
 st.set_page_config(page_title="Donate Item", page_icon="📦")
 
 st.title("📦 Donate an Item")
@@ -17,12 +38,17 @@ with st.form("donate_form"):
     col1, col2 = st.columns(2)
     with col1:
         donor_name = st.text_input("Your Name*", placeholder="John Doe")
-    with col2:
-        donor_contact = st.text_input("Contact (Email)*", placeholder="john@email.com")
-    
 
-    donor_location = st.text_input("Zip Code*", placeholder="14850")
+    with col2:
+        donor_contact = st.text_input("Contact (Email)*", placeholder="john@email.com", key = "email", on_change=validate_input, args=("email", is_valid_email, "❌ Please enter a valid email address"))
     
+    donor_location = st.text_input("Zip Code*", placeholder="14850", key = "zipcode", on_change=validate_input, args=("zipcode", is_zipcode_valid, "❌ Please enter a valid zipcode"))
+
+    if st.session_state.email_error:
+        st.error(st.session_state.email_error)
+    if st.session_state.zipcode_error:
+        st.error(st.session_state.zipcode_error)
+
     st.subheader("Item Information")
     
     uploaded_file = st.file_uploader(
@@ -42,10 +68,6 @@ with st.form("donate_form"):
     submit_button = st.form_submit_button("🚀 Submit Item for Review")
     
     if submit_button:
-        if not is_valid_email(donor_contact):
-            st.error("❌ Please enter a valid email address")
-        if not is_zipcode_valid(donor_location):
-            st.error("❌ Please enter a valid 5-digit zipcode")
         # Validation
         if not donor_name or not donor_contact or not donor_location:
             st.error("❌ Please fill in all required fields marked with *")
