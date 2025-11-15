@@ -81,10 +81,10 @@ with st.form("donate_form"):
                         'donor_contact': donor_contact,
                         'donor_address': donor_location,
                         'gift_name': assessment['gift_name'],
-                        'gift_type': assessment['category'],
-                        'age_range': assessment['age_range'],
                         'gift_description': assessment['gift_description'],
+                        'gift_type': assessment['category'],
                         'photo_base64': image_base64,
+                        'age_range': assessment['age_range'],
                         'quality_score': assessment['quality_score']
                     }
                     
