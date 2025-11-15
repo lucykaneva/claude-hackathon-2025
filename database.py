@@ -1,6 +1,7 @@
 import sqlite3
 import json
 from datetime import datetime
+from utils import is_valid_email, is_zipcode_valid
 
 DB_NAME = 'gifts_database.db'
 
@@ -66,6 +67,12 @@ def initialize_db():
 def add_gift(gift_data):
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
+    zipcode = gift_data['donor_address']
+    email = gift_data['donor_contact']
+    if(not is_valid_email(email)):
+        raise ValueError("Invalid email address")
+    if(not is_zipcode_valid(zipcode)):
+        raise ValueError("Invalid zipcode")
     cursor.execute('''
         INSERT INTO gifts (donor_name, donor_contact, donor_address, gift_name, gift_description, gift_type, photo_base64, age_range, quality_score)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)

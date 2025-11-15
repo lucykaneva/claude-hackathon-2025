@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 from database import add_gift
 from claude_helper import assess_gift_from_image
+from utils import is_valid_email, is_zipcode_valid
 
 st.set_page_config(page_title="Donate Item", page_icon="📦")
 
@@ -17,9 +18,14 @@ with st.form("donate_form"):
     with col1:
         donor_name = st.text_input("Your Name*", placeholder="John Doe")
     with col2:
-        donor_contact = st.text_input("Contact (Email or Phone)*", placeholder="john@email.com")
+        donor_contact = st.text_input("Contact (Email)*", placeholder="john@email.com")
     
+
     donor_location = st.text_input("Zip Code*", placeholder="14850")
+    if not is_valid_email(donor_contact):
+        st.warning("⚠️ Please enter a valid email address.")
+    if not is_zipcode_valid(donor_location):
+        st.warning("⚠️ Please enter a valid 5-digit zipcode.")
     
     st.subheader("Item Information")
     
