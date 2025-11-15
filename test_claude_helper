@@ -1,0 +1,8 @@
+from claude_helper import test_claude, assess_gift_from_image
+import base64
+import json
+TEST_IMAGE_PATH = "test_image.jpg"
+with open(TEST_IMAGE_PATH, "rb") as img_file:
+    image_data = base64.b64encode(img_file.read()).decode()
+    result = assess_gift_from_image(image_data)
+    print(json.dumps(result, indent=2))
