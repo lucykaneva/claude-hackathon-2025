@@ -22,10 +22,6 @@ with st.form("donate_form"):
     
 
     donor_location = st.text_input("Zip Code*", placeholder="14850")
-    if not is_valid_email(donor_contact):
-        st.warning("⚠️ Please enter a valid email address.")
-    if not is_zipcode_valid(donor_location):
-        st.warning("⚠️ Please enter a valid 5-digit zipcode.")
     
     st.subheader("Item Information")
     
@@ -46,6 +42,10 @@ with st.form("donate_form"):
     submit_button = st.form_submit_button("🚀 Submit Item for Review")
     
     if submit_button:
+        if not is_valid_email(donor_contact):
+            st.error("❌ Please enter a valid email address")
+        if not is_zipcode_valid(donor_location):
+            st.error("❌ Please enter a valid 5-digit zipcode")
         # Validation
         if not donor_name or not donor_contact or not donor_location:
             st.error("❌ Please fill in all required fields marked with *")
