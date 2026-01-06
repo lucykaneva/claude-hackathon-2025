@@ -12,7 +12,7 @@ The Claude API analyzes a picture of the item that the donor uploads and assesse
 
 The matching functionality of the app also integrates Claude API. After a user fills out a request with their child’s age and interest, the AI assistant assigns a matching score to the available items and the app displays the top 5 gift options. The user then can claim the gift and receive the contact information of the donor.
 ## Challenges and Solutions
-One of the biggest challenges that we faced was making Claude send back data in an appropriate format that we can then extract and insert into the data base. After debugging and doing a little bit of research we managed to get teh appropriate data format from Claude and update the corresponding fields in our data base.
+One of the biggest challenges that we faced was making Claude send back data in an appropriate format that we can then extract and insert into the data base. After debugging and doing a little bit of research we managed to get theappropriate data format from Claude and update the corresponding fields in our data base.
 ## Future Plans
 With more time, we would make our UI more user-friendly and polished. We would increase the functionality of the app by adding browsing based on location and the ability for donors to view families in need near them. We would create user authorization and specific account information which helps donors track their donations and received requests. 
 
